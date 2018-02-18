@@ -10,7 +10,10 @@ public class BracketSpec {
 
   @Test
   public void bracketParser() {
-    Parser<Tuple3<String, String, String>> hellos = Parser.string("Hello(").bracket(Parser.string("world"), Parser.string(")"));
+    Parser<?> hellos = Parser.string("world").bracket(Parser.string("Hello("), Parser.string(")")).cat(Parser.EOF());
     System.out.println(hellos.invoke("Hello(world)"));
+    System.out.println(hellos.invoke("Hello(Hello(world))"));
+
+    Parser.string("world").bracket(Parser.string("Hello("), Parser.string(")")).cat(Parser.EOF());
   }
 }

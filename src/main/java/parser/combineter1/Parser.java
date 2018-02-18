@@ -15,8 +15,11 @@ public interface Parser<T> {
   default <U> Parser<Tuple2<T, U>> cat(Parser<U> rhs) {
     return new Cat<>(this, rhs);
   }
-  default <U, V> Parser<Tuple3<T, U, V>> bracket(Parser<U> ihs, Parser<V> ehs ) {
-    return new Bracket<>(this, ihs, ehs);
+  default <U, V> Parser<Tuple3<U, T, V>> bracket(Parser<U> shs, Parser<V> ehs ) {
+    return new Bracket<>(shs, this, ehs);
+  }
+  default <U, V> Parser<Tuple3<U, T, V>> manyBracket(Parser<U> shs, Parser<V> ehs ) {
+    return new ManyBracket<>(shs, this, ehs);
   }
   default Parser<T> or(Parser<T> rhs) {
     return new Or<>(this, rhs);
